@@ -9,6 +9,7 @@ with open("phonebook_raw.csv", encoding='utf-8') as f:
 
 
 def separation(separate_list):
+    print(range(len(separate_list)))
     for a in range(len(separate_list)):
         if a == 0 or a == 4:
             continue
@@ -66,15 +67,27 @@ def num_processing(num_list, mod_separated_list):
 
 def merge(mod_separated_list):
     lastname = {}
+    count = 0
     for id_1, cl in enumerate(mod_separated_list):
         for id_2, i in enumerate(cl):
             if id_2 == 0:
                 if i in lastname.keys():
-                    for id_j, j in enumerate(mod_separated_list[id_1]):
-                        if j == '':
-                            index = id_j
-                            mod_separated_list[id_1][index] = lastname[i][index]
-                lastname[i] = cl
+                    if len(cl) >= len(lastname[i]):
+                        for id_j, j in enumerate(mod_separated_list[id_1]):
+                            if j == '':
+                                index = id_j
+                                if id_j <= len(lastname[i])-1:
+                                    mod_separated_list[id_1][index] = lastname[i][index]
+                                count = 0
+                    else:
+                        for id_k, k in enumerate(lastname[i]):
+                            if k == '':
+                                index = id_k
+                                if id_k <= len(cl) - 1:
+                                    lastname[i][index] = mod_separated_list[id_1][index]
+                                count = 1
+                if count == 0:
+                    lastname[i] = cl
     return lastname
 
 
